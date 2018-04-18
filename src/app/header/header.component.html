@@ -1,0 +1,12 @@
+<mat-toolbar color="primary">
+  <button mat-button routerLink=""><b>Note-It!</b></button>
+
+  <!-- This fills the remaining space of the current row -->
+  <span style="flex: 1 1 100%"></span>
+
+  <button mat-button *ngIf="authenticated; else notAuthenticated" (click)="onSignOut()">Sign Out</button>
+  <ng-template #notAuthenticated>
+    <button mat-button routerLink="/signup">Register</button>
+    <button mat-button routerLink="/signin">Sign In</button>
+  </ng-template>
+</mat-toolbar>

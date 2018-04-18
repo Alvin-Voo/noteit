@@ -1,0 +1,23 @@
+<h3 style="text-align: center">ToDo List</h3>
+<br>
+<div class="userinput">
+  <mat-form-field style="flex: 75%">
+    <input matInput placeholder="Please enter to do item here" type="text" #itemInput>
+  </mat-form-field>
+  <button mat-fab color="accent" (click)="addItem(itemInput.value)"> Add </button>
+</div>
+<hr>
+<mat-nav-list>
+ <mat-list-item *ngFor="let item of (toDoItemsState | async).toDoItems; index as i" (click)="itemClicked($event, i)">
+
+   <del style="disabled" *ngIf="item.done">
+      {{item.item}}
+   </del>
+   <mat-icon *ngIf="item.done" (click)="deleteItem(i)">delete_forever</mat-icon>
+
+   <span *ngIf="!item.done">
+    {{item.item}}
+  </span>
+
+  </mat-list-item>
+</mat-nav-list>

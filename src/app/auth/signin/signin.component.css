@@ -1,0 +1,18 @@
+.signin-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 450px;
+}
+
+.signin-container > * {
+  width: 100%;
+}
+
+.mat-form-field {
+  margin-top:10px
+}
+
+.mat-raised-button{
+  max-width: 1.8em;
+  align-self: flex-end;
+}

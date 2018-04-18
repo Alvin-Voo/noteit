@@ -1,0 +1,14 @@
+mat-nav-list{
+  width: 450px;
+  margin: 0 20px;
+}
+
+mat-list-item{
+  border-radius: 15px;
+}
+
+.userinput{
+  display: flex;
+  flex-direction: row;
+  justify-content: center
+}
