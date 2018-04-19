@@ -14,7 +14,11 @@ export class AppComponent implements OnInit{
   ngOnInit(){
     firebase.initializeApp({
       apiKey: config.config.apiKey,
-      authDomain: config.config.authDomain
+      authDomain: config.config.authDomain,
+      databaseURL: config.config.databaseURL,
+      projectId: config.config.projectId,
+      storageBucket: config.config.storageBucket,
+      messagingSenderId: config.config.messagingSenderId
     })
   }
 }

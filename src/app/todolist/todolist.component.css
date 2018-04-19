@@ -1,14 +1,44 @@
-mat-nav-list{
+.todolist{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   width: 450px;
-  margin: 0 20px;
 }
 
-mat-list-item{
-  border-radius: 15px;
+.todolist > *{
+  width: 100%;
+  margin: 10px 0;
+}
+
+.todolist .mat-card .mat-card-header .mat-card-title{
+  font-size: 1.5em
+}
+
+.todolist .mat-card .mat-card-content{
+  padding: 0 1em
 }
 
 .userinput{
   display: flex;
   flex-direction: row;
-  justify-content: center
+  justify-content: center;
+}
+
+.navlist{
+  display: flex;
+  flex-direction: column;
+}
+
+.navlist .mat-nav-list{
+  margin: 0 20px;
+}
+
+.navlist .mat-nav-list .mat-list-item{
+  border-radius: 15px;
+}
+
+.navlist .buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }

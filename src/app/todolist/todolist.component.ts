@@ -1,11 +1,16 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { ToDoItem } from './todoitem.model';
 import { Store } from '@ngrx/store';
-import  'rxjs/add/operator/take';
 import { Observable } from 'rxjs/Observable';
+import  'rxjs/add/operator/take';
+import  'rxjs/add/operator/skip';
+import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/takeWhile';
 import * as ToDoListActions from './store/todolist.actions';
 import * as fromApp from '../store/app.reducers';
 import { Subscription } from 'rxjs/Subscription';
+import { MatDialog } from '@angular/material';
+import { ClearAllDialogComponent } from './clear-all-dialog/clear-all-dialog.component';
 
 @Component({
   selector: 'app-todolist',
@@ -14,17 +19,26 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class TodolistComponent implements OnInit, OnDestroy {
   toDoItemsState : Observable<fromApp.AppState['toDoList']>;
-  toDoSubscription: Subscription;
-  constructor(private store: Store<fromApp.AppState>) { }
+  authSubscription: Subscription;
+  savedStatus = '';
+  savedSuccess = false;
+  isAuthenticated = false;
+  username = '';
+  constructor(private store: Store<fromApp.AppState>, private matDialog: MatDialog) { }
 
   ngOnInit() {
     this.toDoItemsState = this.store.select('toDoList');
+    this.authSubscription = this.store.select('auth')
+    .subscribe((authState)=>{
+      this.isAuthenticated=authState.authenticated;
+      this.username=authState.username;
+    });
   }
 
   itemClicked(event, index: number){
     console.log("clicked "+ index);
 
-    this.toDoSubscription = this.toDoItemsState.take(1)
+    this.toDoItemsState.take(1)
     .subscribe(
       (itemsState)=>{
         if(itemsState.toDoItems[index].done){
@@ -48,7 +62,37 @@ export class TodolistComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ToDoListActions.DeleteItem(itemSelected));
   }
 
+  deleteAll(){
+    const dialogRef = this.matDialog.open(ClearAllDialogComponent, {
+      height: '200px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if(result)this.store.dispatch(new ToDoListActions.DeleteAll());
+    });
+  }
+
+  saveList(){
+    this.savedStatus = '';
+    this.store.dispatch(new ToDoListActions.SaveList());
+    this.toDoItemsState.skip(1).take(1)
+    .subscribe(
+      (itemsState)=>{
+        this.savedSuccess = itemsState.savedSuccessful;
+        if(itemsState.savedSuccessful){
+          this.savedStatus="Saved successfully";
+        }else this.savedStatus = itemsState.save_fail_message;
+
+        setTimeout(()=>{this.savedStatus=''},3000);
+      }
+    )
+  }
+
   ngOnDestroy(){
-    if(this.toDoSubscription)this.toDoSubscription.unsubscribe();
+    if(this.authSubscription){
+      console.log("auth sub unsubscribe");
+      this.authSubscription.unsubscribe();
+    }
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import * as fromApp from '../store/app.reducers';
-import * as AuthActions from '../auth/store/auth.actions';
+import * as fromApp from '../../store/app.reducers';
+import * as AuthActions from '../../auth/store/auth.actions';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 

@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducers';
 import * as AuthActions from '../store/auth.actions';
 import { Subscription } from 'rxjs/Subscription';
+import "rxjs/add/operator/skipWhile";
 
 @Component({
   selector: 'app-signup',
@@ -15,16 +16,28 @@ export class SignupComponent implements OnInit, OnDestroy {
   @ViewChild('passwordInput') password;
   hide = true;
   signupError = '';
+  private name = '';
   authEffectsError: Subscription;
 
   constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
-    this.authEffectsError = this.store.select('auth')
+    this.authEffectsError = this.store.select('auth')//i dont want to take 1 coz I want this observation to keep continuing
+    //even though after first auth failure
     .subscribe(
       authState =>{
-        if(authState.signup_fail_message) this.signupError = authState.signup_fail_message;
+        if(authState.signup_fail_message){
+          console.log("signup signupError");
+          this.signupError = authState.signup_fail_message;
+        }
       }
+    )
+
+    this.store.select('auth').skipWhile(
+      authState=> !authState.authenticated
+    ).take(1)//take once coz authenticated event should happen only once
+    .subscribe(
+      authState =>this.store.dispatch(new AuthActions.CreateUserDB(this.name))
     )
   }
 
@@ -45,13 +58,14 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   onSubmitForm(myForm: NgForm){
-    const name = myForm.value.name;
+    this.name = myForm.value.name;
     const email = myForm.value.email;
     const password = myForm.value.password;
     this.signupError = '';
     //signup the user
-    this.store.dispatch(new AuthActions.TrySignup({username: email, password: password}));
-    //once user is created, create a database record
+    this.store.dispatch(new AuthActions.TrySignup({email: email, password: password}));
+    //if authenticated, i.e token is set, means user is created, create a database record with the name detail
+
   }
 
 }

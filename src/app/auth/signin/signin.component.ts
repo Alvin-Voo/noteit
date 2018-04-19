@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducers';
 import * as AuthActions from '../store/auth.actions';
+import * as ToDoListActions from '../../todolist/store/todolist.actions';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -24,6 +25,7 @@ export class SigninComponent implements OnInit, OnDestroy {
     .subscribe(
       authState =>{
         if(authState.signin_fail_message) this.signinError = authState.signin_fail_message;
+        if(authState.authenticated) this.store.dispatch(new ToDoListActions.FetchList());
       }
     )
   }
@@ -50,7 +52,7 @@ export class SigninComponent implements OnInit, OnDestroy {
     console.log(email+"   "+password);
     this.signinError = '';
     //signup the user
-    this.store.dispatch(new AuthActions.TrySignin({username: email, password: password}));
+    this.store.dispatch(new AuthActions.TrySignin({email: email, password: password}));
     //populate the to do list with data from db
   }
 

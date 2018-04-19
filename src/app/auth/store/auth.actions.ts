@@ -8,6 +8,9 @@ export const SIGNUP = 'SIGNUP';
 export const SIGNIN = 'SIGNIN';
 export const LOGOUT = 'LOGOUT';
 export const SET_TOKEN = 'SET_TOKEN';
+export const CREATE_USERDB = 'CREATE_USERDB';
+export const SET_USERNAME = 'SET_USERNAME';
+
 
 export class SignupFail implements Action{
   readonly type = SIGNUP_FAIL;
@@ -24,13 +27,13 @@ export class SigninFail implements Action{
 export class TrySignup implements Action {
   readonly type = TRY_SIGNUP;
 
-  constructor(public payload:{username: string, password: string}){}
+  constructor(public payload:{email: string, password: string}){}
 }
 
 export class TrySignin implements Action {
   readonly type = TRY_SIGNIN;
 
-  constructor(public payload:{username: string, password: string}){}
+  constructor(public payload:{email: string, password: string}){}
 }
 
 export class Signup implements Action{
@@ -49,4 +52,16 @@ export class SetToken implements Action{
   }
 }
 
-export type AuthActions = Signin | Signup | Logout | SetToken | TrySignup | TrySignin | SignupFail | SigninFail;
+export class CreateUserDB implements Action{
+  readonly type = CREATE_USERDB;
+
+  constructor(public payload: string){}
+}
+
+export class SetUserName implements Action{
+  readonly type = SET_USERNAME;
+
+  constructor(public payload: string){}
+}
+
+export type AuthActions = Signin | Signup | Logout | SetToken | TrySignup | TrySignin | SignupFail | SigninFail | CreateUserDB | SetUserName;

@@ -3,6 +3,7 @@ import * as AuthActions from './auth.actions';
 export interface State{
     token : string;
     authenticated : boolean;
+    username: string;
     signup_fail_message: string;
     signin_fail_message: string;
 }
@@ -10,6 +11,7 @@ export interface State{
 const initialState: State ={
   token : null,
   authenticated : false,
+  username: null,
   signup_fail_message: null,
   signin_fail_message: null
 }
@@ -33,7 +35,7 @@ export function authReducer(state=initialState, action: AuthActions.AuthActions)
     case AuthActions.SIGNIN:
       return{
         ...state,
-        authenticated: true,
+        username: null,
         signup_fail_message: null,
         signin_fail_message: null
       };
@@ -48,7 +50,14 @@ export function authReducer(state=initialState, action: AuthActions.AuthActions)
       console.log("set token reducer called");
       return{
         ...state,
-        token: action.payload
+        token: action.payload,
+        authenticated: true
+      }
+    case AuthActions.CREATE_USERDB:
+    case AuthActions.SET_USERNAME:
+      return{
+        ...state,
+        username: action.payload
       }
     default:
       return state;

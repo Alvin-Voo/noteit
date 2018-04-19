@@ -1,23 +1,40 @@
-<h3 style="text-align: center">ToDo List</h3>
-<br>
-<div class="userinput">
-  <mat-form-field style="flex: 75%">
-    <input matInput placeholder="Please enter to do item here" type="text" #itemInput>
-  </mat-form-field>
-  <button mat-fab color="accent" (click)="addItem(itemInput.value)"> Add </button>
+<div class='todolist'>
+  <h3 style="text-align: center" class="mat-display-1" *ngIf="isAuthenticated&&username">Welcome {{username}}</h3>
+  <mat-card *ngIf="!isAuthenticated">
+    <mat-card-header>
+      <mat-card-title>Welcome Stranger!</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      NoteIt! is a simple to do list. <a routerLink="/signup">Register</a> / <a routerLink="/signin">Sign in</a> to save your list across devices!
+    </mat-card-content>
+  </mat-card>
+  <br>
+  <div class="userinput">
+    <mat-form-field style="flex: 75%">
+      <input matInput placeholder="Please enter to do item here" type="text" #itemInput>
+    </mat-form-field>
+    <button mat-fab color="accent" (click)="addItem(itemInput.value);itemInput.value=''" [disabled]="!itemInput.value"> Add </button>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="navlist">
+    <mat-nav-list>
+     <mat-list-item *ngFor="let item of (toDoItemsState | async).toDoItems; index as i" (click)="itemClicked($event, i)">
+
+       <del style="disabled" *ngIf="item.done">
+          {{item.item}}
+       </del>
+       <mat-icon *ngIf="item.done" (click)="deleteItem(i)">delete_forever</mat-icon>
+
+       <span *ngIf="!item.done">
+        {{item.item}}
+      </span>
+
+      </mat-list-item>
+    </mat-nav-list>
+    <p [ngStyle]="{color: savedSuccess? 'green' : 'red'}">{{savedStatus}}</p>
+    <div class="buttons" *ngIf="isAuthenticated">
+      <button mat-raised-button color="primary" (click)="saveList()">Save</button>
+      <button mat-raised-button color="warn" (click)="deleteAll()" [disabled]="((toDoItemsState | async).toDoItems).length===0">Clear List</button>
+    </div>
+  </div>
 </div>
-<hr>
-<mat-nav-list>
- <mat-list-item *ngFor="let item of (toDoItemsState | async).toDoItems; index as i" (click)="itemClicked($event, i)">
-
-   <del style="disabled" *ngIf="item.done">
-      {{item.item}}
-   </del>
-   <mat-icon *ngIf="item.done" (click)="deleteItem(i)">delete_forever</mat-icon>
-
-   <span *ngIf="!item.done">
-    {{item.item}}
-  </span>
-
-  </mat-list-item>
-</mat-nav-list>
