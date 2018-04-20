@@ -16,13 +16,11 @@ import { SharedModule } from './shared/shared.module';
 
 import {environment} from '../environments/environment';
 import { ClearAllDialogComponent } from './todolist/clear-all-dialog/clear-all-dialog.component';
-import { HomeComponent } from './core/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent,
     TodolistComponent,
     ClearAllDialogComponent,
   ],
@@ -30,8 +28,8 @@ import { HomeComponent } from './core/home/home.component';
   imports: [
     BrowserModule,
     SharedModule,
-    AppRoutingModule,
     AuthModule,
+    AppRoutingModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthEffects,ToDoListEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : []

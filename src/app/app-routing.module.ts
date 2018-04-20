@@ -4,7 +4,8 @@ import { TodolistComponent } from './todolist/todolist.component';
 
 const appRoutes: Routes=[
   {path: '', redirectTo: 'todolist', pathMatch: 'full'},
-  {path: 'todolist', component: TodolistComponent}
+  {path: 'todolist', component: TodolistComponent},
+  {path: '**', redirectTo: 'todolist'}
 ]
 
 @NgModule({

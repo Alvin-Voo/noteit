@@ -11,11 +11,45 @@ import * as fromApp from '../store/app.reducers';
 import { Subscription } from 'rxjs/Subscription';
 import { MatDialog } from '@angular/material';
 import { ClearAllDialogComponent } from './clear-all-dialog/clear-all-dialog.component';
+import { trigger, state, style, transition, animate, keyframes, group } from '@angular/animations';
 
 @Component({
   selector: 'app-todolist',
   templateUrl: './todolist.component.html',
-  styleUrls: ['./todolist.component.css']
+  styleUrls: ['./todolist.component.css'],
+  animations:[
+    trigger('fadein_anim',[
+      state('in',style({
+        opacity: 1,
+      })),
+      transition('void => *', [
+        style({
+          opacity: 0,
+        }),
+        animate(400)
+      ])
+    ]),
+    // trigger('todolist_anim',[//this animation cannot proceed, coz internally when the todoitemsState is changed (done being changed)
+    //   //that particular item will be removed and added back again asynchronously
+    //   state('in', style({
+    //     opacity: 1,
+    //     transform: 'translateX(0)'
+    //   })),
+    //   transition('void => *', [
+    //     style({
+    //       opacity: 0,
+    //       transform: 'translateX(-100px)'
+    //     }),
+    //     animate(300)
+    //   ]),
+    //   transition('* => void', [
+    //     animate(300, style({
+    //       opacity: 0,
+    //       transform: 'translateX(100px)'
+    //     }))
+    //   ])
+    // ])
+  ]//end animation
 })
 export class TodolistComponent implements OnInit, OnDestroy {
   toDoItemsState : Observable<fromApp.AppState['toDoList']>;
@@ -24,6 +58,7 @@ export class TodolistComponent implements OnInit, OnDestroy {
   savedSuccess = false;
   isAuthenticated = false;
   username = '';
+
   constructor(private store: Store<fromApp.AppState>, private matDialog: MatDialog) { }
 
   ngOnInit() {
@@ -37,7 +72,6 @@ export class TodolistComponent implements OnInit, OnDestroy {
 
   itemClicked(event, index: number){
     console.log("clicked "+ index);
-
     this.toDoItemsState.take(1)
     .subscribe(
       (itemsState)=>{
@@ -66,7 +100,6 @@ export class TodolistComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(ClearAllDialogComponent, {
       height: '200px'
     });
-
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if(result)this.store.dispatch(new ToDoListActions.DeleteAll());
