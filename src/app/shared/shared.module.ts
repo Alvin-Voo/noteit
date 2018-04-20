@@ -17,7 +17,14 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     MatFormFieldModule,
     MatDialogModule,
     MatCardModule
-  ]
+  ],
+  providers: [
+    { provide: 'LOCALSTORAGE', useFactory: getLocalStorage }
+]
 })
 
 export class SharedModule{}
+
+export function getLocalStorage() {
+    return (typeof window !== "undefined") ? window.localStorage : null;
+}

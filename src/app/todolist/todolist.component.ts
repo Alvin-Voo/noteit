@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID} from '@angular/core';
 import { ToDoItem } from './todoitem.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { MatDialog } from '@angular/material';
 import { ClearAllDialogComponent } from './clear-all-dialog/clear-all-dialog.component';
 import { trigger, state, style, transition, animate, keyframes, group } from '@angular/animations';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-todolist',
@@ -59,7 +60,8 @@ export class TodolistComponent implements OnInit, OnDestroy {
   isAuthenticated = false;
   username = '';
 
-  constructor(private store: Store<fromApp.AppState>, private matDialog: MatDialog) { }
+  constructor(private store: Store<fromApp.AppState>,
+    private matDialog: MatDialog) { }
 
   ngOnInit() {
     this.toDoItemsState = this.store.select('toDoList');
