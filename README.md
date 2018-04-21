@@ -1,6 +1,16 @@
 # Noteit
 
+A simple to do list app (https://ng-todolist-c97ed.firebaseapp.com/) with ability for user to register, login and save list (to a firebase db).
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
+
+## Features
+
+* NgRx Store - Todo List and Authentication states managed by NgRx Store
+* NgRx Store LocalStorage - Todo List is synced with local storage
+* Users able to register, login and saved - To firebase db
+* Once signin, users saved todo list is fetched from firebase db
+* Ng Material & Ng Animation for a bit of extra flair
 
 ## Development server
 
