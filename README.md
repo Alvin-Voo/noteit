@@ -9,7 +9,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 * NgRx Store - Todo List and Authentication states managed by NgRx Store
 * NgRx Store LocalStorage - Todo List is synced with local storage
 * Users able to register, login and saved - To firebase db
-* Once signin, users saved todo list is fetched from firebase db
+* Once sign in, users' saved todo list is fetched from firebase db
 * Ng Material & Ng Animation for a bit of extra flair
 
 ## Development server
