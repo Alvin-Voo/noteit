@@ -33,6 +33,13 @@
   margin: 0 20px;
 }
 
+.navlist > p{
+  display: block;
+  margin:0 auto;
+  font-style:italic;
+  color: #b4b4b4
+}
+
 .navlist .mat-nav-list .mat-list-item{
   border-radius: 15px;
 }

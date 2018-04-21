@@ -17,6 +17,7 @@
   </div>
   <mat-divider></mat-divider>
   <div class="navlist">
+    <p class="mat-typography" *ngIf="(toDoItemsState | async).toDoItems.length===0">Your list is empty</p>
     <mat-nav-list>
      <mat-list-item *ngFor="let item of (toDoItemsState | async).toDoItems; index as i" (click)="itemClicked($event, i)" [@fadein_anim]>
        <span [ngStyle]="{'text-decoration': item.done? 'line-through' : 'none'}" style="margin:0 auto">
@@ -25,7 +26,7 @@
       <mat-icon (click)="deleteItem(i)" [ngStyle]="{'visibility': item.done? 'visible' : 'hidden'}">delete_forever</mat-icon>
       </mat-list-item>
     </mat-nav-list>
-    <p [ngStyle]="{'color': savedSuccess? 'green' : 'red'}">{{savedStatus}}</p>
+    <p class="mat-typography" [ngStyle]="{'color': savedSuccess? 'green' : 'red'}">{{savedStatus}}</p>
     <div class="buttons" *ngIf="isAuthenticated">
       <button mat-raised-button color="primary" (click)="saveList()">Save</button>
       <button mat-raised-button color="warn" (click)="deleteAll()" [disabled]="((toDoItemsState | async).toDoItems).length===0">Clear List</button>
