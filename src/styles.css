@@ -4,3 +4,8 @@
 .mat-list-item .mat-list-item-content {
   justify-content: center;
 }
+
+app-signup, app-signin{
+  max-width: 600px;
+  width:100%;
+}

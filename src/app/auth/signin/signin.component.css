@@ -1,7 +1,7 @@
 .signin-container {
   display: flex;
   flex-direction: column;
-  min-width: 450px;
+  margin: 0 auto;
 }
 
 .signin-container > * {
