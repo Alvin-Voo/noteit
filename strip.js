@@ -1,18 +1,39 @@
 let stripDebug = require('strip-debug');
-let fs = require('fs')
+let fs = require('fs');
+let path = require('path');
 
 let output ="";
+let dist = "./dist"
 
-let global_data = fs.readFileSync("./dist/main.fa88056dc821a6e43cd6.bundle.js").toString();
+function fromDir(startPath,filter){
+//console.log('Starting from dir '+startPath+'/');
 
-
-output = stripDebug(global_data).toString();
-
-
-fs.writeFile("./dist/main.test.js", output, function(err) {
-    if(err) {
-        return console.log(err);
+    if (!fs.existsSync(startPath)){
+        console.log("no dir ",startPath);
+        return;
     }
 
-    console.log("The file was saved!");
-});
+    var files=fs.readdirSync(startPath);
+    for(var i=0;i<files.length;i++){
+        var filename=path.join(startPath,files[i]);
+        var stat = fs.lstatSync(filename);
+        if (stat.isDirectory()){
+            fromDir(filename,filter); //recurse
+        }
+        else if (filename.indexOf(filter)>=0) {
+            console.log('-- found: ',filename);
+
+            let data = fs.readFileSync(filename).toString();
+
+            fs.writeFileSync(filename, stripDebug(data).toString(), function(err) {
+                if(err) {
+                    return console.log(err);
+                }
+
+                console.log("The file "+filename +" was stripped!");
+            });
+        };
+    };
+};
+
+fromDir(dist,'main');
