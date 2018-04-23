@@ -15,6 +15,6 @@ mat-toolbar > button
 @media (max-width: 450px) {
     mat-toolbar{
         flex-direction: column;
-        height: 300px;
+        height: 200px;
     }
 }

@@ -3,7 +3,7 @@ let fs = require('fs')
 
 let output ="";
 
-let global_data = fs.readFileSync("./dist/main.e6ce0a9393eae41feceb.bundle.js").toString();
+let global_data = fs.readFileSync("./dist/main.fa88056dc821a6e43cd6.bundle.js").toString();
 
 
 output = stripDebug(global_data).toString();
