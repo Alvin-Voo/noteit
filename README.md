@@ -12,6 +12,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 * Once sign in, users' saved todo list is fetched from firebase db
 * Ng Material & Ng Animation for a bit of extra flair
 
+## Screencast
+
+![noteit](https://github.com/Alvin-Voo/noteit/blob/master/demo0.gif "noteit")
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

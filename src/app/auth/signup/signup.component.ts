@@ -36,7 +36,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.store.select('auth').skipWhile(
       authState=> !authState.authenticated
     ).take(1)//take once coz authenticated event should happen only once
-    .subscribe(
+    .subscribe(//more like create user db shoudl only happen ONCE
       authState =>this.store.dispatch(new AuthActions.CreateUserDB(this.name))
     )
   }
